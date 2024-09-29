@@ -1,23 +1,18 @@
-`include "src/float/add.v"
+`include "src/float/mul.v"
 
 module tb();
 
 wire [31:0] s;
 reg [31:0] a, b;
 
-addf af(s, a, b);
+mulf mf(s, a, b);
 
 initial begin
-$monitor("%b %b %b %b\n", af.smant, af.sexp, af.amant, af.bmant);
+$monitor("%b %b\n", mf.smant, mf.sexp);
 //1, 5
 a = 32'b00111111100000000000000000000000;
 b = 32'b01000000101000000000000000000000;
 #100;
-//69, 5
-a = 32'b01000010100010100000000000000000;
-b = 32'b01000000101000000000000000000000;
-#100;
-//2.3, -2.3
 a = 32'b01000000000100110011001100110011;
 b = 32'b11000000000100110011001100110011;
 #100;
