@@ -14,6 +14,7 @@ reg [23:0] smant;
 reg [7:0]  sexp;
 
 integer i;
+reg d;
 always @* begin
 	//extracting exponent and mantissa
 	aexp = a[30:23];
@@ -35,39 +36,34 @@ always @* begin
 		sexp = aexp;
 	end
 	
-	//check sign to decide add/sub and then
-	//normalize result
+	//check sign to decide add/sub
 	if(asign == bsign) begin
 		ssign = asign;
 		smant = amant + bmant;
-		//get the msb 1 pos so that we can normalize
-		i = 23;
-		while(amant[i] == 0 && bmant[i] == 0) begin
-			i = i - 1;
-		end
-
-		if(smant[i+1] == 1) begin
-			smant = smant >> 1;
-			sexp = sexp + 1;
-		end;
 	end
 	else if(amant > bmant) begin
 		ssign = asign;
 		smant = amant - bmant;
-		i = 22;
-		while(smant[i] == 0) begin
-			smant = smant << 1;
-			i = i - 1;
-		end
 	end
-	else begin
+	else if(bmant > amant) begin
 		ssign = bsign;
 		smant = bmant - amant;
+	end
+	else begin
+		//same number but different signs. Therefore, the answer
+		smant = 0;
+		ssign = 0;
+		sexp  = 0;
+	end
+	if(smant != 0)begin
+		i = 23;
 		while(smant[i] == 0) begin
-			smant = smant << 1;
 			i = i - 1;
 		end
+		smant = smant << (23 - i);
+		sexp = sexp - (23 - i);
+		smant = smant << 1;
 	end
-end
+end;
 
 endmodule
