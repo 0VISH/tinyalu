@@ -41,3 +41,7 @@ $$
 $$
 If we drop the leading 1(before the decimal) and take the part which is after the decimal, we get the mantissa.<br>
 NOTE: Mantissa assumes a leading 1.
+
+$$
+    (-1)^{sign}*(1.mantissa)*2^{exponent-127}
+$$

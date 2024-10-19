@@ -12,9 +12,9 @@ reg [23:0] amant;
 reg [23:0] bmant;
 reg [23:0] smant;
 reg [7:0]  sexp;
-reg [46:0] tempmant;
+reg [47:0] tempmant;
 
-integer i;
+integer i, ai, bi, pos;
 always @* begin
 	//extracting exponent and mantissa
 	aexp = a[30:23];
@@ -30,16 +30,6 @@ always @* begin
 	sexp = aexp + bexp - 127;
 	tempmant = amant * bmant;
 	smant = tempmant[46:24];
-
-	//get the msb 1 pos so that we can normalize
-	i = 23;
-	while(smant[i] == 0 && i > 0) begin
-		i = i - 1;
-	end
-	if(i != 0) begin
-		smant = smant << 23-i;
-		sexp = sexp + 23-i-1;
-	end
 end
 
 endmodule

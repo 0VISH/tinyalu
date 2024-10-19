@@ -50,18 +50,22 @@ always @* begin
 		smant = bmant - amant;
 	end
 	else begin
-		//same number but different signs. Therefore, the answer
+		//same number but different signs. Therefore, the answer is
 		smant = 0;
 		ssign = 0;
 		sexp  = 0;
 	end
 	if(smant != 0)begin
+		//normalize
 		i = 23;
 		while(smant[i] == 0) begin
 			i = i - 1;
 		end
+		//shift till we get 1 at msb(shifting the decimal: step 1)
 		smant = smant << (23 - i);
+		//reduce exponent by the same amount(shifting the decimal: step 2)
 		sexp = sexp - (23 - i);
+		//drop the implicit 1
 		smant = smant << 1;
 	end
 end;
