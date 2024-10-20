@@ -29,7 +29,28 @@ always @* begin
 	//sexp = ((E1-127) + (E2-127)) + 127
 	sexp = aexp + bexp - 127;
 	tempmant = amant * bmant;
-	smant = tempmant[46:24];
+	smant = tempmant[47:24];
+	
+	//normalizing
+	if(smant[23] == 1) begin
+		/*
+			the part before decimal can be: 1, 10, 11
+			if 10,11 then the answer is not normalized.
+			we increment the exponent by 1, and shift left,
+			considering the msb 1 in 10,11 as implicit 1.
+		*/
+		sexp = sexp + 1;
+	end else begin
+		//remove leading 0
+		i = 23;
+		while(smant[i] == 0) begin
+			i = i - 1;
+		end
+		//shift till we get 1 at msb(shifting the decimal)
+		smant = smant << (23 - i);
+	end
+	//drop the implicit 1
+	smant = smant << 1;
 end
 
 endmodule

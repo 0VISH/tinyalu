@@ -8,7 +8,7 @@ reg [31:0] a, b;
 mulf mf(s, a, b);
 
 initial begin
-$monitor("%b %d\n", mf.smant, mf.sexp);
+$monitor("%b %b\n", mf.smant,mf.sexp);
 //1, 5
 a = 32'b00111111100000000000000000000000;
 b = 32'b01000000101000000000000000000000;
