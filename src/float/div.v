@@ -12,7 +12,7 @@ reg [23:0] amant;
 reg [23:0] bmant;
 reg [23:0] smant;
 reg [7:0]  sexp;
-reg [46:0] tempmant;
+reg [47:0] tempmant;
 
 integer i;
 always @* begin
@@ -27,19 +27,9 @@ always @* begin
 	bmant[23] = 1;
 
 	//sexp = ((E1-127) + (E2-127)) + 127
-	sexp = aexp + bexp - 127;
+	sexp = aexp - bexp + 127;
 	tempmant = amant / bmant;
-	smant = tempmant[46:24];
-
-	//get the msb 1 pos so that we can normalize
-	i = 23;
-	while(smant[i] == 0 && i > 0) begin
-		i = i - 1;
-	end
-	if(i != 0) begin
-		smant = smant << 23-i;
-		sexp = sexp + 23-i-1;
-	end
+	smant = tempmant[47:24];
 end
 
 endmodule

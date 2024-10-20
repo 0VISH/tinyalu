@@ -19,7 +19,7 @@ Float is positive if sign is 0, else negative.
 ### exponent
 
 $$
-IEEE\:exponent = actual\:exponent + bias
+IEEEexponent = exponent + bias
 $$
 
 for 32 bit, bias = 127
