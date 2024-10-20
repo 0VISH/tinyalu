@@ -17,7 +17,11 @@ mantissa: 23 bit
 Float is positive if sign is 0, else negative.
 
 ### exponent
-$$ IEEE\:exponent = actual\:exponent + bias $$
+
+$$
+IEEE\:exponent = actual\:exponent + bias
+$$
+
 for 32 bit, bias = 127
 
 Bias is used to shift the representation of digits. If we are using 2's compliment, the list of possible numbers with given bits(n), starts with positive values. If the bias is $$ \frac{2^n}{2} - 1$$ then the list will start with negative numbers. This allows ALU's to use their unsigned int comperator while comparing the mantissas of 2 floats. No additional circuitry is required.
@@ -35,10 +39,12 @@ BIN   DEC   2S   BIAS(bias=3)
 ```
 
 ## mantissa
+
 $$
     23.5 = 10111.01001100
          = 1.011101001100 * 2^4
 $$
+
 If we drop the leading 1(before the decimal) and take the part which is after the decimal, we get the mantissa.<br>
 NOTE: Mantissa assumes a leading 1.
 
