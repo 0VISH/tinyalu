@@ -14,7 +14,7 @@ reg [23:0] smant;
 reg [7:0]  sexp;
 reg [47:0] tempmant;
 
-integer i, ai, bi, pos;
+integer i;
 always @* begin
 	//extracting exponent and mantissa
 	aexp = a[30:23];

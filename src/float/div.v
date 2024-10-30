@@ -28,8 +28,23 @@ always @* begin
 
 	//sexp = ((E1-127) + (E2-127)) + 127
 	sexp = aexp - bexp + 127;
-	tempmant = amant / bmant;
-	smant = tempmant[47:24];
+	//shifting amant to increase accuracy
+	tempmant = (amant << 23) / bmant;
+	//capturing the lower bits inorder to scale it back
+	smant = tempmant[24:0];
+	if(smant != 0)begin
+		//normalize
+		i = 23;
+		while(smant[i] == 0) begin
+			i = i - 1;
+		end
+		//shift till we get 1 at msb(shifting the decimal: step 1)
+		smant = smant << (23 - i);
+		//reduce exponent by the same amount(shifting the decimal: step 2)
+		sexp = sexp - (23 - i);
+		//drop the implicit 1
+		smant = smant << 1;
+	end
 end
 
 endmodule
