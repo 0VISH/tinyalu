@@ -8,7 +8,7 @@ assign cout = a&b | c&(a^b);
 
 endmodule
 
-module add(s, c, a, b);
+module uadd(s, a, b);
 
 output [31:0] s;
 output c;
@@ -24,6 +24,13 @@ generate
     end
 endgenerate
 
-assign c = carry[31];
+endmodule
+
+module sadd(s, a, b);
+
+output signed [31:0] s;
+input signed [31:0] a, b;
+
+assign s = $signed(a) + $signed(b);
 
 endmodule

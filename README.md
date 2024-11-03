@@ -38,7 +38,7 @@ BIN   DEC   2S   BIAS(bias=3)
 111    7    -1        4
 ```
 
-## mantissa
+### mantissa
 
 $$
     23.5 = 10111.01001100
@@ -51,3 +51,21 @@ NOTE: Mantissa assumes a leading 1.
 $$
     (-1)^{sign}*(1.mantissa)*2^{exponent-127}
 $$
+
+## ALU
+ALU takes 3 inputs, 2 numbers and 1 instruction. It outputs a number and ZE(set to high when division by zero).
+```
+.... E D C B A
+
+CBA: represents the operation
+     000: add
+     001: sub
+     011: mul
+     111: div
+     110: grt
+     100: equal
+     101: less
+D:  float if set, else int(input)
+E:  signed if set, else unsigned(input)
+    don't care if D is set
+```

@@ -1,22 +1,31 @@
-module ucomperator(grt, ls, eq, a, b);
+module ucomp(s, a, b, inst);
 
-output grt, ls, eq;
+output reg s;
 input [31:0] a, b;
+input [2:0] inst;
 
-assign grt = a > b;
-assign ls = a < b;
-assign eq = a == b;
+always @(*) begin
+    case (inst)
+        3'b110: s = a > b;
+        3'b100: s = a == b;
+        3'b101: s = a < b;
+    endcase
+end
 
 endmodule
 
-module scomperator(grt, ls, eq, a, b);
+module scomp(s, a, b, inst);
 
-output grt, ls, eq;
+output reg s;
 input signed [31:0] a, b;
+input signed [2:0] inst;
 
-assign grt = $signed(a) > $signed(b);
-assign ls = $signed(a) < $signed(b);
-assign eq = $signed(a) == $signed(b);
+always @(*) begin
+    case (inst)
+        3'b110: s = $signed(a) > $signed(b);
+        3'b100: s = $signed(a) == $signed(b);
+        3'b101: s = $signed(a) < $signed(b);
+    endcase
+end
 
 endmodule
-

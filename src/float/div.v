@@ -1,11 +1,12 @@
-module divf(s, a, b);
+module divf(s, ze, a, b);
 
-output [31:0] s;
+output [31:0] s, ze;
 input [31:0] a, b;
 
 assign asign = a[31];
 assign bsign = b[31];
 assign ssign = asign ^ bsign; 
+assign ze = ~(|b);
 reg [7:0]  aexp; 
 reg [7:0]  bexp;
 reg [23:0] amant;
