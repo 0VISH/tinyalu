@@ -64,14 +64,16 @@ always @* begin
 			considering the msb 1 in 10,11 as implicit 1.
 		*/
 		sexp = sexp + 1;
-	end else begin
+	end else if(smant != 0) begin
 		//remove leading 0
 		i = 23;
 		while(smant[i] == 0) begin
 			i = i - 1;
 		end
-		//shift till we get 1 at msb(shifting the decimal)
+		//shift till we get 1 at msb(shifting the decimal: step 1)
 		smant = smant << (23 - i);
+		//reduce exponent by the same amount(shifting the decimal: step 2)
+		sexp = sexp - (23 - i);
 		//drop the implicit 1
 		smant = smant << 1;
 	end

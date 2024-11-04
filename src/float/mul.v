@@ -40,7 +40,7 @@ always @* begin
 			considering the msb 1 in 10,11 as implicit 1.
 		*/
 		sexp = sexp + 1;
-	end else begin
+	end else if(smant != 0) begin
 		//remove leading 0
 		i = 23;
 		while(smant[i] == 0) begin
