@@ -1,6 +1,7 @@
 module divf(s, ze, a, b);
 
-output [31:0] s, ze;
+output reg [31:0] s;
+output ze;
 input [31:0] a, b;
 
 assign asign = a[31];
@@ -46,6 +47,7 @@ always @* begin
 		//drop the implicit 1
 		smant = smant << 1;
 	end
+	s = {ssign, sexp, smant[23:1]};
 end
 
 endmodule

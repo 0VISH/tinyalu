@@ -1,6 +1,6 @@
 module addf(s, a, b);
 
-output [31:0] s;
+output reg [31:0] s;
 input [31:0] a, b;
 
 assign asign = a[31];
@@ -10,7 +10,7 @@ reg [7:0]  aexp;
 reg [7:0]  bexp;
 reg [23:0] amant;
 reg [23:0] bmant;
-reg [23:0] smant;
+reg [24:0] smant;
 reg [7:0]  sexp;
 
 integer i;
@@ -55,19 +55,27 @@ always @* begin
 		ssign = 0;
 		sexp  = 0;
 	end
-	if(smant != 0)begin
-		//normalize
+	//normalizing
+	if(smant[24] == 1) begin
+		/*
+			the part before decimal can be: 1, 10, 11
+			if 10,11 then the answer is not normalized.
+			we increment the exponent by 1, and shift left,
+			considering the msb 1 in 10,11 as implicit 1.
+		*/
+		sexp = sexp + 1;
+	end else begin
+		//remove leading 0
 		i = 23;
 		while(smant[i] == 0) begin
 			i = i - 1;
 		end
-		//shift till we get 1 at msb(shifting the decimal: step 1)
+		//shift till we get 1 at msb(shifting the decimal)
 		smant = smant << (23 - i);
-		//reduce exponent by the same amount(shifting the decimal: step 2)
-		sexp = sexp - (23 - i);
 		//drop the implicit 1
 		smant = smant << 1;
 	end
+	s = {ssign, sexp, smant[23:1]};  //consider only 23 bits
 end;
 
 endmodule

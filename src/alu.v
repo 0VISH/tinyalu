@@ -4,6 +4,11 @@
 `include "src/integer/div.v"
 `include "src/integer/comperator.v"
 
+`include "src/float/add.v"
+`include "src/float/sub.v"
+`include "src/float/mul.v"
+`include "src/float/div.v"
+
 module ALU(s, ze, a, b, instruction);
 
 output reg ze;
@@ -14,6 +19,7 @@ wire [2:0] op = instruction[2:0];
 wire isFloat = instruction[3];
 wire isSigned = instruction[4];
 
+//int
 wire [31:0] addUOut, addSOut;
 uadd addUInt(addUOut, a, b);
 sadd addSInt(addSOut, a, b);
@@ -35,8 +41,23 @@ wire compUOut, compSOut;
 ucomp compUInt(compUOut, a, b, op);
 scomp compSInt(compSOut, a, b, op);
 
+//float
+wire [31:0] addFOut;
+addf addF(addFOut, a, b);
+
+wire [31:0] subFOut;
+subf subF(subFOut, a, b);
+
+wire [31:0] mulFOut;
+mulf mulF(mulFOut, a, b);
+
+wire [31:0] divFOut;
+wire zeFOut;
+divf divF(divFOut, zeFOut, a, b);
+
 always @(*) begin
     ze = 0;
+    s = 0;
     if(isFloat == 0 && isSigned == 0)begin
         case (op)
             3'b000: s = addUOut;
@@ -62,6 +83,19 @@ always @(*) begin
             3'b110: s = compSOut;
             3'b100: s = compSOut;
             3'b101: s = compSOut;
+        endcase
+    end else begin
+        case (op)
+            3'b000: s = addFOut;
+            3'b001: s = subFOut;
+            3'b011: s = mulFOut;
+            3'b111: begin
+                s = divFOut;
+                ze=zeFOut;
+            end
+            // 3'b110: s = compSOut;
+            // 3'b100: s = compSOut;
+            // 3'b101: s = compSOut;
         endcase
     end
 end
