@@ -8,6 +8,7 @@
 `include "src/float/sub.v"
 `include "src/float/mul.v"
 `include "src/float/div.v"
+`include "src/float/comperator.v"
 
 module ALU(s, ze, a, b, instruction);
 
@@ -55,6 +56,9 @@ wire [31:0] divFOut;
 wire zeFOut;
 divf divF(divFOut, zeFOut, a, b);
 
+wire compFOut;
+compf compfF(compFOut, a, b, op);
+
 always @(*) begin
     ze = 0;
     s = 0;
@@ -93,9 +97,9 @@ always @(*) begin
                 s = divFOut;
                 ze=zeFOut;
             end
-            // 3'b110: s = compSOut;
-            // 3'b100: s = compSOut;
-            // 3'b101: s = compSOut;
+            3'b110: s = compFOut;
+            3'b100: s = compFOut;
+            3'b101: s = compFOut;
         endcase
     end
 end

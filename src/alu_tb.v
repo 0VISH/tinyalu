@@ -36,6 +36,8 @@ initial begin
     instruction = 32'b10100;
     #100;
     instruction = 32'b10101;
+    #100;
+    $finish;
 end
 */
 //float
@@ -63,6 +65,8 @@ initial begin
     instruction = 32'bx1100;
     #100;
     instruction = 32'bx1101;
+    #100;
+    $finish;
 end
 
 endmodule
