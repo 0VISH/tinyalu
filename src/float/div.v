@@ -28,9 +28,9 @@ always @* begin
 	amant[23] = 1;
 	bmant[23] = 1;
 
-	//sexp = ((E1-127) + (E2-127)) + 127
+	//sexp = ((E1-127) - (E2-127)) + 127
 	sexp = aexp - bexp + 127;
-	//shifting amant to increase accuracy
+	//shifting amant to increase accuracy. By 23 because mant is 23 bits.
 	tempmant = (amant << 23) / bmant;
 	//capturing the lower bits inorder to scale it back
 	smant = tempmant[24:0];

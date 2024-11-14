@@ -48,6 +48,7 @@ always @* begin
 		end
 		//shift till we get 1 at msb(shifting the decimal)
 		smant = smant << (23 - i);
+		//we do not shift exp because the exp has already been calculated
 	end
 	//drop the implicit 1
 	smant = smant << 1;

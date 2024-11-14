@@ -24,7 +24,7 @@ $$
 
 for 32 bit, bias = 127
 
-Bias is used to shift the representation of digits. If we are using 2's compliment, the list of possible numbers with given bits(n), starts with positive values. If the bias is $$ \frac{2^n}{2} - 1$$ then the list will start with negative numbers. This allows ALU's to use their unsigned int comperator while comparing the mantissas of 2 floats. No additional circuitry is required.
+Bias is used to shift the representation of digits. If we are using 2's compliment, the list of possible numbers with given bits(n), starts with positive values. If the bias is $$ 2^{n-1} - 1$$ then the list will start with negative numbers. This allows ALU's to use their unsigned int comperator while comparing the mantissas of 2 floats. No additional circuitry is required.
 
 ```
 BIN   DEC   2S   BIAS(bias=3)
